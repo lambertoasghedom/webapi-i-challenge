@@ -8,7 +8,7 @@ server.get("/", (req, res) => {
     res.send("NODE CHALLENGE")
 })
 
-//  R in CRUD <<<<<<<<
+//  GET all users <<<<<<<<
 server.get("/api/users", (req, res) => {
     db.find()
         .then(db => {
@@ -35,11 +35,21 @@ server.get("/api/users/:id", (req, res) => {
         })
 })
 
-// if (updated) {
-//     res.status(200).json(updated)
-// } else {
-//     res.status(404).json({ message: "CANT FIND THAT HUB!"})
-// }
+// DELETE request to /api/users/id
+server.delete("/api/users/:id", (req, res) => {
+    const { id } = req.params;
+    db.remove(id)
+        .then(deleted => {
+            if (deleted) {
+                res.status(204).end()
+            } else {
+                res.status(404).json({ message: "The user with the specified ID does not exist." })
+            }
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+})
 
 const port = 8000;
 server.listen(port, () => console.log(`\n*** running on port ${port} ***\n`))
