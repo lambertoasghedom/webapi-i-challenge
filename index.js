@@ -24,12 +24,22 @@ server.get("/api/users/:id", (req, res) => {
     const { id } = req.params;
     db.findById(id)
         .then(id => {
-            res.status(201).json(id)
+            if (id) {
+                res.status(200).json(id)
+            } else {
+                res.status(404).json({ message: "The user with the specified ID does not exist."})
+            }
         })
-        .catch(err => {
-            res.status(500).json(err)
+        .catch(error => {
+            res.status(500).json({ error: "The user information could not be retrived" })
         })
 })
+
+// if (updated) {
+//     res.status(200).json(updated)
+// } else {
+//     res.status(404).json({ message: "CANT FIND THAT HUB!"})
+// }
 
 const port = 8000;
 server.listen(port, () => console.log(`\n*** running on port ${port} ***\n`))
