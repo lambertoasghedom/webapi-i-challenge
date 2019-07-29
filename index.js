@@ -58,8 +58,6 @@ server.get("/api/users/:id", (req, res) => {
 server.put('/api/users/:id', (req, res) => {
     const id  = req.params.id;
     const changes = req.body;
-    console.log(id)
-    console.log(changes)
 
     db.update(id, changes)
     .then(updated => {
