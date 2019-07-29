@@ -55,6 +55,25 @@ server.get("/api/users/:id", (req, res) => {
         })
 })
 
+server.put('/api/users/:id', (req, res) => {
+    const id  = req.params.id;
+    const changes = req.body;
+    console.log(id)
+    console.log(changes)
+
+    db.update(id, changes)
+    .then(updated => {
+        if (updated) {
+            res.status(200).json(updated)
+        } else {
+            res.status(404).json({ message: "Id doesn't exist"})
+        }
+    })
+    .catch(error => {
+        res.status(500).json(error)
+    })
+})
+
 // DELETE request to /api/users/id <<<<<<<<<<<<<<<
 server.delete("/api/users/:id", (req, res) => {
     const { id } = req.params;
@@ -70,6 +89,8 @@ server.delete("/api/users/:id", (req, res) => {
             res.status(500).json(err)
         })
 })
+
+
 
 const port = 8000;
 server.listen(port, () => console.log(`\n*** running on port ${port} ***\n`))
