@@ -4,6 +4,8 @@ const express = require("express")
 const db = require('./data/db.js');
 const server = express();
 
+server.use(express.json());
+
 server.get("/", (req, res) => {
     res.send("NODE CHALLENGE")
 })
@@ -11,10 +13,11 @@ server.get("/", (req, res) => {
 // POST create user <<<<<<<<<<<<< //COME BACK
 server.post("/api/users", (req, res) => {
     const userInfo = req.body;
+    console.log(userInfo)
 
-    db.add(userInfo)
+    db.insert(userInfo)
         .then(user => {
-            if (name === "" || bio === "") {
+            if (user.name === "" || user.bio === "") {
                 res.status(400).json({ errorMessage: "Please provide name and bio for the user."})
             } else {
                 res.status(201).json(user)
