@@ -8,6 +8,23 @@ server.get("/", (req, res) => {
     res.send("NODE CHALLENGE")
 })
 
+// POST create user <<<<<<<<<<<<< //COME BACK
+server.post("/api/users", (req, res) => {
+    const userInfo = req.body;
+
+    db.add(userInfo)
+        .then(user => {
+            if (name === "" || bio === "") {
+                res.status(400).json({ errorMessage: "Please provide name and bio for the user."})
+            } else {
+                res.status(201).json(user)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: "There was an error while saving the user to the database." })
+        })
+})
+
 //  GET all users <<<<<<<<
 server.get("/api/users", (req, res) => {
     db.find()
@@ -19,7 +36,7 @@ server.get("/api/users", (req, res) => {
         })
 })
 
-// GET users with a specific id
+// GET users with a specific id <<<<<<<<<<<<<<
 server.get("/api/users/:id", (req, res) => {
     const { id } = req.params;
     db.findById(id)
@@ -35,7 +52,7 @@ server.get("/api/users/:id", (req, res) => {
         })
 })
 
-// DELETE request to /api/users/id
+// DELETE request to /api/users/id <<<<<<<<<<<<<<<
 server.delete("/api/users/:id", (req, res) => {
     const { id } = req.params;
     db.remove(id)
